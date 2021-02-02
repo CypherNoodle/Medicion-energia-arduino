@@ -1,0 +1,89 @@
+/* Incluir la libreria del LCD: */ 
+#include <LiquidCrystal.h>
+
+/* Asigmar pines para LCD (RS, E, d4, d5, d6, d7) */
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
+/* Estados del boton */
+int buttonState = 0;
+int lastButtonState = 0;
+int buttonPushCounter = 0;
+
+void setup() {
+
+  /* Inicializar el LCD con el número de columnas y filas del LCD */
+  lcd.begin(20,4);                                   /* LCD 20x4 */
+  /* Inicializar el pin de la entrada del boton: */
+  pinMode(2, INPUT);                                 /* Pin 2 entrada boton */
+  pinMode(13, OUTPUT);                               /* Pin 13 salida de instruccion*/
+  /* Variables Sensor */
+  Serial.begin(9600);                                /* Salida serial USB para debug */
+  analogReference(INTERNAL);                         /* Lectura de puertos analogicos */
+}
+
+void loop() {
+  /* Inicio de la medicion de corriente y potencia */
+  float Irms=get_corriente();                        /* Corriente eficaz (A) */
+  float P=Irms*220.0;                                /* P=I*V (Watts) */
+
+  /* Configuracion del LCD 20x4: */
+  lcd.setCursor(0,0);                                /* Cursor en la 1° posición de la 1° fila */
+  lcd.print("Medicion de consumo actual: ");
+//  lcd.setCursor(0,1);                              /* Cursor en la 1° posición de la 2° fila */
+  lcd.setCursor(0,2);                                /* Cursor en la 1° posición de la 3° fila */
+  lcd.print("Corriente: ");
+  lcd.print(Irms,2);                                 /* 2 decimales */
+  lcd.print(" A  ");                                 /* Valor de corriente */
+  lcd.setCursor(0,3);                                /* Cursor en la 1° posición de la 4° fila */
+  lcd.print("Potencia: ");
+  lcd.print(P,2);                                    /* 2 decimales */
+  lcd.print(" W  ");                                 /* Valor de potencia */
+  delay(300);                                        /* Retraso mostrar valores */
+
+/* Valores para modo Serial port USB/9600 baudios */
+  Serial.print("Irms: ");                            /* Texto "Irms:" */
+  Serial.print(Irms,2);                              /* Valor de la corriente */
+  Serial.print("A, Potencia: ");                     /* Unidad de medida, texto "Pontecia:" */
+  Serial.print(P,2);                                 /* Valor de la potencia */
+  Serial.println("W");                               /* Unidad de medida */
+  delay(300);                                        /* Retraso valores */
+  
+  /* Inicio de configuracion del boton: */
+  buttonState = digitalRead(2);                      /* Leer la entrada del boton */
+  if (buttonState != lastButtonState) {              /* Compara el estado previo del boton */
+    if (buttonState == HIGH) {                       /* Si el estado cambio, incrementa el contador */
+      buttonPushCounter += 1;                        /* Si el estado actual es HIGH, entonces el boton va de off a on */
+      Serial.println("on");
+      Serial.print("number of button pushes: ");
+      Serial.println(buttonPushCounter);
+    } else {                                         /* Si el estado estado es LOW, entonces el boton va de on a off */
+      Serial.println("off");
+    }
+    delay(5);                                        /* Un poco de retraso para prevenir el efecto rebote del boton */
+  }
+  lastButtonState = buttonState;                     /* Guarda el estado actual como ultimo estado conocido */
+  if (buttonPushCounter % 2 == 0) {                  /* Enciende el LED cada 2 pulsaciones ya que divide en 2 el estado actual */
+    digitalWrite(13, HIGH);
+  } else {
+    digitalWrite(13, LOW);
+  }
+}
+/* Instrucciones para lectura de corriente IRMS: */
+float get_corriente()
+{
+  float voltajeSensor;
+  float corriente=0;
+  float Sumatoria=0;
+  long tiempo=millis();
+  int N=0;
+  while(millis()-tiempo<500)                         /* Duración 0.5 segundos(Aprox. 25 ciclos de 50Hz) */
+  { 
+    voltajeSensor = analogRead(A0) * (1.1 / 1023.0); /* voltaje del sensor */
+    corriente=voltajeSensor*30.0;                    /* corriente=VoltajeSensor*(30A/1V) */
+    Sumatoria=Sumatoria+sq(corriente);               /* Sumatoria de Cuadrados */
+    N=N+1;
+    delay(1);
+  }
+  Sumatoria=Sumatoria*2;                             /* Para compensar los cuadrados de los semiciclos negativos */
+  corriente=sqrt((Sumatoria)/N);                     /* Ecuación del RMS */
+  return(corriente);
+}
