@@ -1,81 +1,55 @@
-Void get_anemometro()
- {
+void get_anemometro()   
+{   
    int sensorValue = analogRead(A1);                 /* Lectura del pin del anemometro */
    float outvoltage = sensorValue * (5.0 / 1023.0);  /* voltaje del sensor */
    int Level = 6*outvoltage;                         /* Viento=6*U  */
+   float potencia = 0;                               /* Definir corte en funcion del viento*/
 
 /* Configuracion de rangos de nivel del viento */   
    switch (int Level = 6*outvoltage) {
   case 1:
-    /* do something when int Level = 6*outvoltage equals 1 */
+    potencia = 0.76;
     break;
   case 2:
-    /* do something when int Level = 6*outvoltage equals 2 */
+    potencia = 0.76;
     break;
   case 3:
-    /* do something when int Level = 6*outvoltage equals 3 */
+    potencia = 0.96;
     break;
   case 4:
-    /* do something when int Level = 6*outvoltage equals 4 */
+    potencia = 1.04;
     break;
   case 5:
-    /* do something when int Level = 6*outvoltage equals 5 */
+    potencia = 2.94;
     break;
   case 6:
-    /* do something when int Level = 6*outvoltage equals 6 */
+    potencia = 4.84;
     break;
   case 7:
-    /* do something when int Level = 6*outvoltage equals 7 */
+    potencia = 7.64;
     break;
   case 8:
-    /* do something when int Level = 6*outvoltage equals 8 */
+    potencia = 10.44;
     break;
   case 9:
-    /* do something when int Level = 6*outvoltage equals 9 */
+    potencia = 12.84;
     break;
   case 10:
-    /* do something when int Level = 6*outvoltage equals 10 */
+    potencia = 15.24;
     break;  
   case 11:
-    /* do something when int Level = 6*outvoltage equals 11 */
+    potencia = 17.24;
     break;  
-  case 12:
-    /* do something when int Level = 6*outvoltage equals 12 */
-    break;  
-  case 13:
-    /* do something when int Level = 6*outvoltage equals 13 */
-    break;  
-  case 14:
-    /* do something when int Level = 6*outvoltage equals 14 */
-    break;  
-  case 15:
-    /* do something when int Level = 6*outvoltage equals 15 */
-    break;  
-  case 16:
-    /* do something when int Level = 6*outvoltage equals 16 */
-    break;  
-  case 17:
-    /* do something when int Level = 6*outvoltage equals 17 */
+   default:
+    potencia = 17.24;
     break;
-  default:
-    /* if nothing else matches, do the default */
-    /* default is optional */
-    break;
-	}
-   
-   Serial.print("Voltaje = ");
+  }
+   Serial.print("Voltaje:");
    Serial.print(outvoltage);
-   Serial.println("V");
-   Serial.print("La velocidad del viento es: ");
+   Serial.print("V");
+   Serial.print("La velocidad del viento es:");
    Serial.print(Level);
-   Serial.println(" Velocidad actual ");
-   Serial.println();
-   Serial.print();
+   Serial.print(" Velocidad actual:");
+   Serial.print("");
    delay(500);
- }
- 
- //V=6*U
- //P = V*I
- //I = P/V
- //P = I2*R
- //float p = Irms*220.0;                             /* P=I*V (Watts) */
+}
