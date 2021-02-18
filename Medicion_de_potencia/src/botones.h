@@ -6,11 +6,11 @@ void get_boton()
     if (buttonState == HIGH) {                       /* Si el estado cambia, incrementa el contador */
       buttonPushCounter += 1;                        /* Si el estado actual es HIGH, entonces va de off a on */
       Serial.println("Boton encendido");
-	    Serial.println(" ");
+      Serial.println(" ");
       Serial.print("numero de pulsaciones: ");
       Serial.println(buttonPushCounter);
     } else {                                         /* Si el estado estado es LOW, entonces va de on a off */
-	    Serial.println(" ");
+      Serial.println(" ");
       Serial.println("Boton apagado");
     }
     delay(5);                                        /* Retardo para prevenir el efecto rebote del boton */
