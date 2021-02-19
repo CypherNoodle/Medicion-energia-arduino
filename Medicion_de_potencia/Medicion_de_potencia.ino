@@ -1,7 +1,7 @@
 /* Incluir la libreria del LCD: */ 
 #include <LiquidCrystal.h>
-#include "src\programa.h"                            /* Incluye las variables a utilizar */
-#include "src\botones.h"                             /* Instrucciones del boton con memoria */
+#include "src\Programa.h"                            /* Incluye las variables a utilizar */
+#include "src\Botones.h"                             /* Instrucciones del boton con memoria */
 
 void setup() {
   /* Inicializar el pin de la entrada del boton: */
