@@ -17,9 +17,9 @@ int rele3 = 11;                                       /* Rele conectado al pin 1
 //long time=milisec/1000;                               /* convertir de milisegundos a segundos */
 
 /*
-totamps = totamps + amperios;                         //calcular amperios total
+totamps = totamps + amperios;                         // calcular amperios total
 avgamps = totamps/tiempo;                             // promedio de amps
 amphr =(avgamps*time)/3600;                           // Ah
-Watts = voltaje * amperios;                           //Potencia = Voltaje * corriente
+Watts = voltaje * amperios;                           // Potencia = Voltaje * corriente
 energía =(watt*time)/3600;                            // Vatios-seg vuelve a convertir en Watt-hora dividiendo 1hr(3600sec)
-energy=(watt*time)/(1000*3600);                       //para la lectura en kWh */
+energy=(watt*time)/(1000*3600);                       // para la lectura en kWh */

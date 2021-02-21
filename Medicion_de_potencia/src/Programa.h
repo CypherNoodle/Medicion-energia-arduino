@@ -65,44 +65,51 @@ if (float energy=(p*time)/(3600000) >= potencia){    /* Condicion para cambio de
   /* Configuracion del LCD 20x4: */
   lcd.clear();
   lcd.setCursor(0,0);                                /* Cursor en la 1° posicion de la 1° fila */
-  lcd.print("Medicion de consumo: ");
-  lcd.setCursor(0,1);                                /* Cursor en la 1° posicion de la 3° fila */
-  lcd.print("Diario: ");
+  lcd.print("MEDICION DE CONSUMO");
+  lcd.setCursor(0,1);                                /* Cursor en la 1° posicion de la 2° fila */
+  lcd.print(" Diario: ");
   lcd.print(energy,2);                               /* kWh, 2 decimales */
   lcd.print(" kWh "); 
   lcd.setCursor(0,2);                                /* Cursor en la 1° posicion de la 3° fila */
-  lcd.print("Corriente: ");
-  lcd.print(Irms,2);                                 /* Corriente, 2 decimales */
-  lcd.print(" A ");                                  /* Valor de corriente */
+  lcd.print(" Actual: ");
+  lcd.print(P,2);                                    /* Potencia, 2 decimales */
+  lcd.print(" kW ");                                 /* Valor de consumo actual */
   lcd.setCursor(0,3);                                /* Cursor en la 1° posicion de la 4° fila */
-  lcd.print("Potencia: ");
-  lcd.print(P,2);                                    /* kW, 2 decimales */
-  lcd.print(" kW ");                                 /* Valor de potencia */
+  lcd.print(" Máximo: ");
+  lcd.print(potencia,2);                             /* kWh, 2 decimales */
+  lcd.print(" kWh ");                                
   delay(1000);                                       /* Retraso mostrar valores */
      
   /* Valores para modo consola Serial port USB/9600 baudios */
-  Serial.print("Valor del sensor viento: "); 
+  Serial.println(" DATOS ANEMOMETRO ");
+  Serial.print("  Valor del sensor viento: "); 
   Serial.println(sensorValue);                       /* Para saber el valor del sensor de viento */
-  Serial.print("Voltaje anemometro: ");
+  Serial.print("  Voltaje anemometro: ");
   Serial.print(outvoltage);
   Serial.print("V");
   Serial.println(" ");
-  Serial.print("La velocidad del viento es: ");
+  Serial.print("  Potencia corte: ");                /* Valor de potencia maxima para corte de suministro */
+  Serial.print(potencia);
+  Serial.print("kWh");                               /* Unidad de medida, 2 decimales */
+  Serial.println(" ");
+  Serial.print("  La velocidad del viento es: ");
   Serial.print(Level);
   Serial.println(" ");
-  Serial.print("Corriente: ");                       /* Texto "Irms:" */
+  Serial.println(" ");
+  Serial.println(" DATOS SENSOR DE CORRIENTE ");
+  Serial.print("  Corriente: ");                     /* Texto "Irms:" */
   Serial.print(Irms,2);                              /* Valor de la corriente */
   Serial.print("A");                                 /* Unidad de medida, 2 decimales */
   Serial.println(" ");
-  Serial.print("Potencia (W): ");                    /* Texto "Pontecia:" */
+  Serial.print("  Potencia (W): ");                  /* Texto "Pontecia:" */
   Serial.print(p,2);                                 /* Valor de la potencia en Watts */
   Serial.print("W");                                 /* Unidad de medida, 2 decimales */
   Serial.println(" ");
-  Serial.print("Potencia (kW): ");                   /* Texto "Pontecia:" */
-  Serial.print(p,2);                                 /* Valor de la potencia en kW */
+  Serial.print("  Potencia (kW): ");                 /* Texto "Pontecia:" */
+  Serial.print(P,2);                                 /* Valor de la potencia en kW */
   Serial.print("kW");                                /* Unidad de medida, 2 decimales */
   Serial.println(" ");
-  Serial.print("Diario: ");                          /* Texto "Pontecia:" */
+  Serial.print("  Diario: ");                        /* Texto "Pontecia:" */
   Serial.print(energy,2);                            /* Valor de la potencia en Watts-hora */
   Serial.print("kWh");                               /* Unidad de medida, 2 decimales */
   Serial.println(" ");
