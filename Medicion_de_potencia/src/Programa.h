@@ -75,7 +75,7 @@ if (float energy=(p*time)/(3600000) >= potencia){    /* Condicion para cambio de
   lcd.print(P,2);                                    /* Potencia, 2 decimales */
   lcd.print(" kW ");                                 /* Valor de consumo actual */
   lcd.setCursor(0,3);                                /* Cursor en la 1° posicion de la 4° fila */
-  lcd.print(" Máximo: ");
+  lcd.print(" Maximo: ");
   lcd.print(potencia,2);                             /* kWh, 2 decimales */
   lcd.print(" kWh ");                                
   delay(1000);                                       /* Retraso mostrar valores */
